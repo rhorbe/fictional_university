@@ -1,6 +1,6 @@
 "use strict";
 
-import $, { post, timers } from "jquery";
+import $ from "jquery";
 const KEY_S_CODE = 83;
 const KEY_ESC_CODE = 27;
 
@@ -37,6 +37,7 @@ class Search {
     this.clearSearchField();
     this.focusSearchField();
     this.isOverlayOpen = true;
+    return false; // esto evita el comportamiento predeterminado
   }
 
   activateOvelay() {
@@ -129,7 +130,7 @@ class Search {
   }
 
   startSearchIn(timeInMilliseconds) {
-    this.typingTimer = setTimeout(this.search.bind(this), timeInMilliseconds);
+    this.typingTimer = setTimeout(() => this.search, timeInMilliseconds);
   }
 
   search() {
@@ -230,13 +231,13 @@ class Search {
         .map(
           (item) => `          
           <div class="event-summary">
-          <a class="event-summary__date event-summary__date--beige t-center" href="${item.permalink}">
-              <span class="event-summary__month">${item.month} </span>
-              <span class="event-summary__day"> >${item.day}</span>
+          <a class="event-summary__date event-summary__date t-center" href="${item.permalink}">
+              <span class="event-summary__month">${item.month}</span>
+              <span class="event-summary__day">${item.day}</span>
           </a>
           <div class="event-summary__content">
               <h5 class="event-summary__title headline headline--tiny"><a href="${item.permalink}">${item.title}</a></h5>
-              <p>
+              <p>${item.description}
                   <a href="${item.permalink}" class="nu gray">Seguir leyendo</a>
               </p>
           </div>
@@ -247,7 +248,7 @@ class Search {
         )
         .join("");
     }
-    return '<ul class="link-list min-list">' + resultsItems + "</ul>";
+    return '<ul">' + resultsItems + "</ul>";
   }
 
   areThereResults(results) {

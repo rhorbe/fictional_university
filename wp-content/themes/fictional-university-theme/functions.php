@@ -70,8 +70,8 @@ function university_files()
         wp_enqueue_script('main-universitu-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.1fa169383e64a33bfd0c.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.5f04bcea019b64ec66b6.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.5f04bcea019b64ec66b6.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.bc46957f5967040bf593.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.bc46957f5967040bf593.css'));
     }
 }
 
@@ -138,4 +138,48 @@ function isParentPage($id)
         'child_of' => $id
     ));
     return count($childrenPages) > 0;
+}
+
+
+add_action('admin_init', 'redirectSubsToFrontEnd');
+
+function redirectSubsToFrontEnd()
+{
+    $ourCurrectUser = wp_get_current_user();
+    if (count($ourCurrectUser->roles) == 1 and $ourCurrectUser->roles[0] == 'subscriber') {
+        wp_redirect(site_url('/'));
+        exit;
+    }
+};
+
+
+add_action('wp_loaded', 'noSubsAdminBar');
+
+function noSubsAdminBar()
+{
+    $ourCurrectUser = wp_get_current_user();
+    if (count($ourCurrectUser->roles) == 1 and $ourCurrectUser->roles[0] == 'subscriber') {
+        show_admin_bar(false);
+    }
+};
+
+add_filter('login_headerurl', 'ourHeaderUrl');
+
+function ourHeaderUrl()
+{
+    return esc_url(site_url('/'));
+}
+
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+function ourLoginCSS()
+{
+    wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.bc46957f5967040bf593.css'));
+};
+
+add_filter('login_headertitle','outLoginTitle');
+
+function outLoginTitle(){
+    return get_bloginfo('name');
 }

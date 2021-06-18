@@ -18,6 +18,18 @@
  * @package WordPress
  */
 
+if (strstr($_SERVER['SERVER_NAME'], 'localhost')) {
+	define( 'WP_HOME', 'http://localhost/wordpress' );
+	define( 'WP_SITEURL', 'http://localhost/wordpress' );	
+} else if (strstr($_SERVER['SERVER_NAME'], '192.168.0.20')) {
+	define( 'WP_HOME', 'http://192.168.0.20/wordpress' );
+	define( 'WP_SITEURL', 'http://192.168.0.20/wordpress' );
+} else{
+	define( 'WP_HOME', 'http://201.190.229.112/wordpress' );
+	define( 'WP_SITEURL', 'http://201.190.229.112/wordpress' );
+}
+
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'wordpress' );
