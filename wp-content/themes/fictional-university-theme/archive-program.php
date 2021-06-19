@@ -1,26 +1,29 @@
 <?php
+
 get_header();
 pageBanner(array(
-    'title' => 'All programs',
-    'subtitle' => 'There is something for everyone. Have a look around'
-))
-?>
+  'title' => 'All Programs',
+  'subtitle' => 'There is something for everyone. Have a look around.'
+));
+ ?>
 
 <div class="container container--narrow page-section">
 
-    <ul class="link-list min-list">
-        <?php
+<ul class="link-list min-list">
 
-        while (have_posts()) {
-            the_post();
-        ?>
-            <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?> </a></li>
-        <?php
-        }
-        echo paginate_links();
-        ?>
-    </ul>
+<?php
+  while(have_posts()) {
+    the_post(); ?>
+    <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+  <?php }
+  echo paginate_links();
+?>
+</ul>
 
-    <?php
-    get_footer();
-    ?>
+
+
+</div>
+
+<?php get_footer();
+
+?>
